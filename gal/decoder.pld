@@ -1,0 +1,33 @@
+GAL22V10
+
+CLK A15 A14 A13 A12 A11 A10 A9 A8 NC NC  GND
+NC   NC  NC  Y8  Y7  Y6  Y5  Y4 Y3 Y2 Y1  VCC
+
+/Y1 = A15 * A14 * /A13 * A12 * A11 * A10 * /A9 * /A8
+
+/Y2 = A15 * A14 * /A13 * A12 * A11 * A10 * /A9 * A8
+
+/Y3 = /A15 * CLK + A15 * /A14 * /A13 * CLK + A15 * A14 * /A13 * A12 * A11 * /A10 * CLK
+
+/Y4 = A15 * A13 + A15 * A14 * /A13 * /A12
+
+/Y5 = A15 * A14 * /A13 * A12 * A11 * A10 * A9 * /A8
+
+Y6 = /A15 * /A14 * /A13 * /A12 * /A11 * A10
+
+Y7 = A15 * A14 * /A13 * A12 * A11 * /A10
+
+Y8 = A15 * A14 * /A13 * A12 * /A11 * /A10
+
+DESCRIPTION
+
+/Y1 - VIA1 /CS1 (0xDC00)
+/Y2 - VIA2 /CS1 (0xDD00)
+/Y3 - RAM /CS  (0x0000-0x7FFF and 0x8000-0x9FFF)
+               (also shadow color ram to serve reads: 0xD800-0xDBFF)
+/Y4 - ROM /CS  (0xA000-0xBFFF: BASIC, 0xE000-0xFFFF: Kernal)
+               (Note: this version also has 0xC000 included, since the custom basic is too big.)
+/Y5 - ACIA /CS1 (0xDE00)
+Y6 - VID - char  (0x0400-0x07FF)
+Y7 - VID - color (0xD800-0xDBFF)
+Y8 - VIC II registers (0xD000-0xD3FFF, e.g. 0xD012 - bg color)

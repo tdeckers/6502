@@ -1,0 +1,28 @@
+GAL22V10
+
+CLK A15 A14 A13 A12 A11 A10 A9 A8 NC NC  GND
+NC   NC  NC  NC  Y7  Y6  Y5  Y4 Y3 Y2 Y1  VCC
+
+/Y1 = /A15 * A14 * A13 * /A12 * /A11 * /A10 * /A9 * /A8
+
+/Y2 = /A15 * A14 * A13 * /A12 * /A11 * /A10 * /A9 * A8
+
+/Y3 = /A15 * /A14 * CLK
+
+/Y4 = A15
+
+/Y5 = /A15 * A14 * A13 * /A12 * /A11 * /A10 * A9 * /A8
+
+Y6 = /A15 * /A14 * /A13 * /A12 * /A11 * A10
+
+Y7 = /A15 * A14 * A13 * A12 * /A11 * A10
+
+DESCRIPTION
+
+/Y1 - VIA1 /CS1 (0x6000)
+/Y2 - VIA2 /CS1 (0x6100)
+/Y3 - RAM /CS  (todo: expand size?)
+/Y4 - ROM /CS
+/Y5 - ACIA /CS1 (0x6200)
+Y6 - VID  (0x0400)
+Y7 - VID - color (0x7400)
