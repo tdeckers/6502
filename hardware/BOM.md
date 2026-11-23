@@ -18,17 +18,17 @@ Each row represents one fitted part. The marking column preserves the identifyin
 | U9 | Keyboard controller | Microchip | PIC16F1826-E/P | `PIC16F1826` / `-E/P`. EasyEDA lists the -I/P grade. |
 | X2 | CPU clock oscillator | CTS | MXO45HST-3C-1M000000 | `MXO45HST` / `1M000000` / `CTS 3C`. EasyEDA lists YXC O1212D8MFDA4SC, 8 MHz. |
 
-## Other board positions
+## Other board positions and measured values
 
 Quantities below count positions in PCB_V10. Values and catalog numbers in the **design specification** column come from EasyEDA. Treat those numbers as purchasing references until a package marking, measurement, or assembly record confirms the fitted part. A visible package alone cannot establish capacitance, LED type, or connector manufacturer.
 
-| References | Qty | Design specification | What the photos establish |
+| References | Qty | Design specification | Assembly evidence |
 | --- | ---: | --- | --- |
 | X1 | 1 | 1.8432 MHz ACIA crystal · X49UD18432MSD2SC-1 | Metal-can crystal fitted near U4. The frequency marking begins `1.84`; the full marking and ordering code are unresolved. |
 | R1–R3, R80, R81 | 5 | 1 kΩ · RS-05K1001FT | R1 and R3 are visible beside RESET. Exact fitted numbers unverified. |
 | R4 | 1 | 1 MΩ axial resistor | Blue axial resistor fitted beside X1. Full band sequence unclear. |
 | R5, R60–R64, R75–R79 | 11 | 220 Ω · 0805W8J0221T5E | Resistors visible by READY/TAKEN and the VIA indicator bank. Exact fitted numbers unverified. |
-| R6–R10, R59 | 6 | Schematic **220 Ω**. PCB **1 kΩ**. Schematic purchasing code RS-05K1001FT (1 kΩ). | The POWER and ACIA resistor markings show `22…`. The final digit is unclear. The photos do not settle the six fitted values. |
+| R6–R10, R59 | 6 | **220 Ω** · UniOhm 0805W8J0221T5E (LCSC C25294) | Owner measured all six fitted resistors at approximately **220 Ω**. The catalog number is the design selection. The measurement establishes resistance only. |
 | R11, R14, R16, R18, R20, R22, R24, R26, R27, R29, R31, R33, R35, R37, R39, R42, R43, R45, R47, R49, R51, R53, R55, R58, R65, R67, R69, R71, R74 | 29 | 3.3 kΩ · 0805W8F3301T5E | FPGA divider series resistors. Individual markings unverified. |
 | R12, R13, R15, R17, R19, R21, R23, R25, R28, R30, R32, R34, R36, R38, R40, R41, R44, R46, R48, R50, R52, R54, R56, R57, R66, R68, R70, R72, R73 | 29 | 2.2 kΩ · 0805W8F2201T5E | FPGA divider shunt resistors. Individual markings unverified. |
 | C1 | 1 | 30 pF · CL10C300JB8NNNC | SMD component fitted beside X1. Capacitance unreadable. |

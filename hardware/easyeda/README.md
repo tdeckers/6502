@@ -1,6 +1,6 @@
 # 6502 board · PCB_V10
 
-Captured from the private 6502 project on 2026-11-23. Open either JSON file in EasyEDA Standard with **File → Open → EasyEDA**. [Original project](https://easyeda.com/editor#id=615a0c21201b49a898c2804ee4c0b9e0%7C0339cd2a47ae4208b21eaa0255a6446d) · [EasyEDA source-file guide](https://docs.easyeda.com/en/Export/Export-EasyEDA-Source-File/index.html)
+Based on the private 6502 project captured on 2026-11-23 (original export in commit `1d11694`). The local sources include the six resistor corrections documented below. Open either JSON file in EasyEDA Standard with **File → Open → EasyEDA**. [Original project](https://easyeda.com/editor#id=615a0c21201b49a898c2804ee4c0b9e0%7C0339cd2a47ae4208b21eaa0255a6446d) · [EasyEDA source-file guide](https://docs.easyeda.com/en/Export/Export-EasyEDA-Source-File/index.html)
 
 | Editable source | Contents |
 | --- | --- |
@@ -34,15 +34,15 @@ These margins cover the current read wiring and exclude board loading and clock 
 | **RISK** | SRAM aliases | U6 has A0–A14 only. The GAL also selects it at $8000–$9FFF and $D800–$DBFF. Those writes overwrite $0000–$1FFF and $5800–$5BFF respectively. For example, a write to $8000 changes zero-page address $0000. Reserve the aliases in software or revise the memory map if independent storage is required. [Decoder source](../../gal/decoder.pld) |
 | **RISK** | Keyboard pull-ups | KBD pins 2 and 3 run directly to U9 pins 18 and 17. The board provides no pull-up on either open-collector PS/2 signal. Check whether the keyboard or adapter supplies them. A different keyboard or cable can expose the missing bias. [PS/2 electrical interface](https://digilent.com/reference/_media/pmod%3Apmod%3ApmodPS2_rm.pdf) |
 
-### RISK — IRQ indicator load when asserted
+### BAD — asserted IRQ output load with 220 Ω at R10
 
-When IRQ is asserted, U8 sinks current from +5 V through R10 and LED5. Xinluda specifies a maximum low output of 0.4 V at 4 mA and 0.5 V at 8 mA. The CPU accepts at most 0.4 V. That leaves zero guaranteed low-level margin at 4 mA and misses the limit at 8 mA. The fitted R10 value is unresolved. Even a lightly loaded LED leaves the idle-high mismatch above. [Xinluda electrical characteristics](https://www.xinluda.com/upload/datasheet/XD74LS00.pdf) · [WDC input levels](https://www.wdc65xx.com/wdc/documentation/w65c02s.pdf)
+When IRQ is asserted, U8 sinks current from +5 V through R10 and LED5. Xinluda specifies a maximum low output of 0.4 V at 4 mA and 0.5 V at 8 mA. The CPU accepts at most 0.4 V. That leaves zero guaranteed low-level margin at 4 mA and misses the limit at 8 mA. The owner measured R10 at approximately 220 Ω. At 5 V, assuming a 2.0 V red LED drop and 0.4 V at IRQB, the branch would draw about 12 mA, beyond even the 8 mA test point. The actual current and IRQB low voltage remain unmeasured. The idle-high mismatch is independent of R10. [Xinluda electrical characteristics](https://www.xinluda.com/upload/datasheet/XD74LS00.pdf) · [WDC input levels](https://www.wdc65xx.com/wdc/documentation/w65c02s.pdf)
 
 A practical repair is the pin-compatible SN74HCT00N at U8. It accepts TTL inputs and provides a CMOS high for the lightly loaded CPU input. Use 2.2 kΩ at R10 to keep the LED branch below 2.4 mA even at 5.25 V, or drive LED5 separately. Verify both states at U1 pin 4 with the indicator connected. At a measured 5.0 V supply, look for at least 4.6 V idle and at most 0.4 V asserted. [TI SN74HCT00N, pinout and electrical characteristics](https://www.ti.com/lit/ds/symlink/sn74hct00.pdf)
 
-### BAD — assembly value discrepancy
+### BAD — original design specified the wrong assembly value (corrected locally)
 
-R6–R10 and R59 read **220 Ω** on the Power sheet and **1 kΩ** in the PCB. Their schematic purchasing fields also specify the 1 kΩ part (RS-05K1001FT, C115316). They limit the chip-select, IRQ and power LED currents. Choose the intended load and synchronize the six values before ordering an assembly.
+The owner measured **approximately 220 Ω at each of R6, R7, R8, R9, R10 and R59**. The original Power sheet displayed 220 Ω, but the PCB labels and schematic purchasing fields specified 1 kΩ (FH RS-05K1001FT, LCSC C115316). An order based on those fields would have selected the wrong resistor. The local PCB now lists 220 Ω at all six positions, and the schematic uses the same UniOhm 220 Ω 0805 selection as R5 (0805W8J0221T5E, LCSC C25294). The 2.2 kΩ recommendation above is a proposed change to the IRQ circuit for a future revision.
 
 ## Switching to an 8 MHz oscillator
 
