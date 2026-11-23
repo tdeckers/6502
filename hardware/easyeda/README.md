@@ -1,6 +1,6 @@
 # 6502 board · PCB_V10
 
-Based on the private 6502 project captured on 2026-11-23 (original export in commit `1d11694`). The local sources include the six resistor corrections documented below. Open either JSON file in EasyEDA Standard with **File → Open → EasyEDA**. [Original project](https://easyeda.com/editor#id=615a0c21201b49a898c2804ee4c0b9e0%7C0339cd2a47ae4208b21eaa0255a6446d) · [EasyEDA source-file guide](https://docs.easyeda.com/en/Export/Export-EasyEDA-Source-File/index.html)
+Based on the private 6502 project captured on 2026-11-23 (original export in commit `1d11694`). Open either JSON file in EasyEDA Standard with **File → Open → EasyEDA**. [Original project](https://easyeda.com/editor#id=615a0c21201b49a898c2804ee4c0b9e0%7C0339cd2a47ae4208b21eaa0255a6446d) · [EasyEDA source-file guide](https://docs.easyeda.com/en/Export/Export-EasyEDA-Source-File/index.html)
 
 | Editable source | Contents |
 | --- | --- |
@@ -40,9 +40,11 @@ When IRQ is asserted, U8 sinks current from +5 V through R10 and LED5. Xinluda s
 
 A practical repair is the pin-compatible SN74HCT00N at U8. It accepts TTL inputs and provides a CMOS high for the lightly loaded CPU input. Use 2.2 kΩ at R10 to keep the LED branch below 2.4 mA even at 5.25 V, or drive LED5 separately. Verify both states at U1 pin 4 with the indicator connected. At a measured 5.0 V supply, look for at least 4.6 V idle and at most 0.4 V asserted. [TI SN74HCT00N, pinout and electrical characteristics](https://www.ti.com/lit/ds/symlink/sn74hct00.pdf)
 
-### BAD — original design specified the wrong assembly value (corrected locally)
+### GOOD — R6–R10 and R59 discrepancy fixed in the repo and hosted EasyEDA project
 
-The owner measured **approximately 220 Ω at each of R6, R7, R8, R9, R10 and R59**. The original Power sheet displayed 220 Ω, but the PCB labels and schematic purchasing fields specified 1 kΩ (FH RS-05K1001FT, LCSC C115316). An order based on those fields would have selected the wrong resistor. The local PCB now lists 220 Ω at all six positions, and the schematic uses the same UniOhm 220 Ω 0805 selection as R5 (0805W8J0221T5E, LCSC C25294). The 2.2 kΩ recommendation above is a proposed change to the IRQ circuit for a future revision.
+The owner measured approximately **220 Ω** at each of the six positions. The original PCB labels and schematic purchasing fields specified 1 kΩ (FH RS-05K1001FT, LCSC C115316). Repo commit `5a841ee` corrected the PCB values and purchasing fields to match the populated board.
+
+After the hosted project was saved and reopened, all six PCB_V10 footprints showed **220 Ω** and all six Power sheet symbols matched the repo: **220 Ω, UniOhm `0805W8J0221T5E`, LCSC `C25294`**. The proposed 2.2 kΩ change to R10 for the IRQ indicator remains a separate future revision. [Hosted Power sheet and PCB_V10](https://easyeda.com/editor#id=6d960fd06ced42c5a25679bf2966ccd1%7C0339cd2a47ae4208b21eaa0255a6446d)
 
 ## Switching to an 8 MHz oscillator
 
